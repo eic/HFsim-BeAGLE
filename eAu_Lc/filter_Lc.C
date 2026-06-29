@@ -40,6 +40,7 @@ void filter_Lc(const char* inFile = "eAu.root")
   TTree *newtree = tree->CloneTree(0);
   
   //Loop Over Events
+  const float EtaMax = 3.5;
   int nevt = nEntries;
   for(Int_t ievt = 0; ievt < nevt; ievt++)
   {    
@@ -76,8 +77,11 @@ void filter_Lc(const char* inFile = "eAu.root")
 		    (abs(daughter1->Id())==2212 && abs(daughter2->Id())==211 && abs(daughter3->Id())==321) ||
 		    (abs(daughter1->Id())==2212 && abs(daughter2->Id())==321 && abs(daughter3->Id())==211))
 		  {
-		    is_selected = true;
-		    break;
+		    if(fabs(daughter1->GetEta()) < EtaMax && fabs(daughter2->GetEta()) < EtaMax && fabs(daughter3->GetEta()) < EtaMax)
+		      {
+			is_selected = true;
+			break;
+		      }
 		  }
 	      }
 	  }
